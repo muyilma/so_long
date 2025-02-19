@@ -1,15 +1,12 @@
 NAME=so_long
 
-SRCS=  get_next_line.c so_long.c map_control.c
-CFLAGS=
+SRCS=  libft/get_next_line.c so_long.c map_control.c map_control2.c
+CFLAGS=-g
 LIBFT=libft/libft.a
-
-
-
 
 $(NAME): $(SRCS) 
 	make -C ./libft -s
-	cc  -o $(NAME)  $(SRCS) $(LIBFT)  
+	cc  -o  $(NAME) -g $(SRCS) $(LIBFT)  
 
 all: $(NAME)
 

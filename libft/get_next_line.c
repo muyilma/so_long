@@ -6,13 +6,13 @@
 /*   By: musyilma <musyilma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 17:06:33 by musyilma          #+#    #+#             */
-/*   Updated: 2024/12/24 23:36:19 by musyilma         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:19:32 by musyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <unistd.h>
-#include "libft/libft.h"
+#include "libft.h"
 
 char	*ft_read(int fd, char *str)
 {
