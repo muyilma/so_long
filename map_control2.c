@@ -48,3 +48,25 @@ void	fload_fill(int y, int x, char **map)
 	fload_fill(y, x + 1, map);
 	fload_fill(y, x - 1, map);
 }
+
+int cpymap_control(char **cpymap)
+{
+	int column;
+	int line;
+
+	column=0;
+
+	while (cpymap[column])
+	{
+		line =0;
+		while (cpymap[column][line])
+		{
+			if (cpymap[column][line]=='1')
+				line++;
+			else
+				return (5);
+		}
+		column++;
+	}
+	return (0);
+}

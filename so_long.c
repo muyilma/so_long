@@ -4,13 +4,14 @@
 #include <fcntl.h>
 #include <stdio.h> //sill
 #include <unistd.h>
+#include "minilibx/mlx.h"
 
-static char	**all_read_map(char **map, char **av)
+static char **all_read_map(char **map, char **av)
 {
-	char	*str;
-	char	*newstr;
-	int		fd;
-	char	*tmp;
+	char *str;
+	char *newstr;
+	int fd;
+	char *tmp;
 
 	newstr = ft_strdup("");
 	fd = open(av[1], O_RDONLY);
@@ -18,7 +19,7 @@ static char	**all_read_map(char **map, char **av)
 	{
 		str = get_next_line(fd);
 		if (!str)
-			break ;
+			break;
 		tmp = newstr;
 		newstr = ft_strjoin(newstr, str);
 		free(tmp);
@@ -32,55 +33,55 @@ static char	**all_read_map(char **map, char **av)
 	return (map);
 }
 
-void	all_map_free(char **map)
+void all_map_free(char **map)
 {
-	int	i;
+	int i;
 
 	i = -1;
 	while (map[++i])
 		free(map[i]);
 	free(map);
 }
-void	ft_error(t_map maps, int error_code)
+void ft_error(t_map maps, int error_code)
 {
 	all_map_free(maps.map);
 	write(1, "Error\n", 6);
 	if (error_code == 0)
-		write(1, "Map not rectangle!!", 20);
+		write(1, "Map not rectangle!!\n", 21);
 	else if (error_code == 1)
-		write(1, "Not enough line for Map!!", 26);
+		write(1, "Not enough line for Map!!\n", 27);
 	else if (error_code == 2)
-		write(1, "Map not surrounded wall!!", 26);
+		write(1, "Map not surrounded wall!!\n", 27);
 	else if (error_code == 3)
-		write(1, "Unknown argument!!", 19);
+		write(1, "Unknown argument!!\n", 20);
 	else if (error_code == 4)
-		write(1, "Wrong argument count!!", 23);
+		write(1, "Wrong argument count!!\n", 24);
+	else if (error_code == 5)
+		write(1, "Map is not reachable!!\n", 24);
 	exit(1);
 }
 
-void	all_map_print(char **map)
+void all_map_print(char **map)
 {
-	int	i;
+	int i;
 
 	i = -1;
 	while (map[++i])
 		printf("%s\n", map[i]);
 }
 
-char	**map_copy(t_map maps)
+char **map_copy(t_map maps)
 {
-	int		line;
-	int		column;
-	char	**cpymap;
-	int		i;
+	int column;
+	char **cpymap;
+	int i;
 
-	line = map_info(maps, 1);
-	column = map_info(maps, 2);
+	column = maps.column;
 	cpymap = malloc(sizeof(char *) * (column + 1));
 	column = 0;
 	while (maps.map[column])
 	{
-		cpymap[column] = malloc(line + 1);
+		cpymap[column] = malloc(maps.line + 1);
 		i = 0;
 		while (maps.map[column][i])
 		{
@@ -94,18 +95,33 @@ char	**map_copy(t_map maps)
 	return (cpymap);
 }
 
-int	main(int ac, char **av)
+int close_window(t_map *maps)
 {
-	t_map	maps;
-	char	**cpymap;
+	all_map_free(maps->map);
+    exit(0);   
+}
+
+
+int main(int ac, char **av)
+{
+	t_map maps;
+	char **cpymap;
 
 	maps.map = all_read_map(maps.map, av);
-	control(maps);
+	maps=control(maps);
 	cpymap = map_copy(maps);
-	maps=player_info(maps);
-	fload_fill(maps.y,maps.x,cpymap);
-	all_map_print(cpymap);
+	maps = player_info(maps);
+	fload_fill(maps.y, maps.x, cpymap);
+	if (cpymap_control(cpymap) == 5)
+	{
+		all_map_free(cpymap);
+		ft_error(maps, 5);
+	}
+	maps=open_window(maps);
+	mlx_hook(maps.win,2,(1L << 0),key_code,&maps);
+	mlx_hook(maps.win,17,0,close_window,&maps);
+	mlx_loop(maps.init);
+	all_map_print(maps.map);
 	all_map_free(maps.map);
 	all_map_free(cpymap);
-	return (0);
 }

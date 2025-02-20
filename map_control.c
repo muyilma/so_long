@@ -15,29 +15,24 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int	map_info(t_map maps, int info)
+t_map	map_info(t_map maps)
 {
 	int	line;
 	int	column;
 
 	line = 0;
 	column = 0;
-	if (info == 1)
-	{
-		while (maps.map[0][line])
-			line++;
-		return (line);
-	}
-	else if (info == 2)
-	{
-		while (maps.map[column])
-			column++;
-		return (column);
-	}
-	return (0);
+	while (maps.map[0][line])
+		line++;
+	while (maps.map[column])
+		column++;
+	
+	maps.line=line;
+	maps.column=column;
+	return (maps);
 }
 
-void	rectangle(t_map maps, int line)
+void	rectangle(t_map maps)
 {
 	int	i;
 	int	j;
@@ -48,20 +43,18 @@ void	rectangle(t_map maps, int line)
 		j = 0;
 		while (maps.map[i][j])
 			j++;
-		if (j != line)
+		if (j != maps.line)
 			ft_error(maps, 0);
 		i++;
 	}
 }
 
-void	all_wall(t_map maps, int line)
+void	all_wall(t_map maps)
 {
-	int	column;
 	int	i;
 	int	j;
 
-	column = map_info(maps, 2);
-	if (column < 3)
+	if (maps.column < 3)
 		ft_error(maps, 1);
 	i = 0;
 	while (maps.map[i])
@@ -69,7 +62,7 @@ void	all_wall(t_map maps, int line)
 		j = 0;
 		while (maps.map[i][j])
 		{
-			if (i == 0 || i == column || j == 0 || j == line)
+			if (i == 0 || i == maps.column || j == 0 || j == maps.line-1)
 			{
 				if (maps.map[i][j] != '1')
 					ft_error(maps, 2);
@@ -79,7 +72,7 @@ void	all_wall(t_map maps, int line)
 		i++;
 	}
 }
-void	map_contain(t_map maps, int i, int j, int nothing)
+t_map	map_contain(t_map maps, int i, int j, int nothing)
 {
 	maps.c = 0;
 	maps.e = 0;
@@ -105,14 +98,15 @@ void	map_contain(t_map maps, int i, int j, int nothing)
 	}
 	if (!(maps.p == 1 && maps.c >= 1 && maps.e == 1))
 		ft_error(maps, 4);
+	return maps;
 }
 
-void	control(t_map maps)
+t_map	control(t_map maps)
 {
-	int	len;
+	maps=map_info(maps);
+	rectangle(maps);
+	all_wall(maps);
+	maps=map_contain(maps, 0, 0, 0);
 
-	len = map_info(maps, 1);
-	rectangle(maps, len);
-	all_wall(maps, len - 1);
-	map_contain(maps, 0, 0, 0);
+	return maps;
 }
