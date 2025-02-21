@@ -1,17 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: musyilma <musyilma@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/21 10:22:58 by musyilma          #+#    #+#             */
+/*   Updated: 2025/02/21 13:59:15 by musyilma         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft/get_next_line.h"
 #include "libft/libft.h"
+#include "minilibx/mlx.h"
 #include "so_long.h"
 #include <fcntl.h>
-#include <stdio.h> //sill
 #include <unistd.h>
-#include "minilibx/mlx.h"
 
-static char **all_read_map(char **map, char **av)
+static char	**all_read_map(char **map, char **av)
 {
-	char *str;
-	char *newstr;
-	int fd;
-	char *tmp;
+	char	*str;
+	char	*newstr;
+	int		fd;
+	char	*tmp;
 
 	newstr = ft_strdup("");
 	fd = open(av[1], O_RDONLY);
@@ -19,7 +30,7 @@ static char **all_read_map(char **map, char **av)
 	{
 		str = get_next_line(fd);
 		if (!str)
-			break;
+			break ;
 		tmp = newstr;
 		newstr = ft_strjoin(newstr, str);
 		free(tmp);
@@ -33,16 +44,17 @@ static char **all_read_map(char **map, char **av)
 	return (map);
 }
 
-void all_map_free(char **map)
+void	all_map_free(char **map)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (map[++i])
 		free(map[i]);
 	free(map);
 }
-void ft_error(t_map maps, int error_code)
+
+void	ft_error(t_map maps, int error_code)
 {
 	all_map_free(maps.map);
 	write(1, "Error\n", 6);
@@ -61,67 +73,29 @@ void ft_error(t_map maps, int error_code)
 	exit(1);
 }
 
-void all_map_print(char **map)
+int	close_window(t_map *maps)
 {
-	int i;
-
-	i = -1;
-	while (map[++i])
-		printf("%s\n", map[i]);
-}
-
-char **map_copy(t_map maps)
-{
-	int column;
-	char **cpymap;
-	int i;
-
-	column = maps.column;
-	cpymap = malloc(sizeof(char *) * (column + 1));
-	column = 0;
-	while (maps.map[column])
-	{
-		cpymap[column] = malloc(maps.line + 1);
-		i = 0;
-		while (maps.map[column][i])
-		{
-			cpymap[column][i] = maps.map[column][i];
-			i++;
-		}
-		cpymap[column][i] = '\0';
-		column++;
-	}
-	cpymap[column] = NULL;
-	return (cpymap);
-}
-
-int close_window(t_map *maps)
-{
+	mlx_destroy_image(maps->init, maps->player);
+	mlx_destroy_image(maps->init, maps->coin);
+	mlx_destroy_image(maps->init, maps->soil);
+	mlx_destroy_image(maps->init, maps->door);
+	mlx_destroy_image(maps->init, maps->wall);
+	mlx_destroy_window(maps->init, maps->win);
+	mlx_destroy_display(maps->init);
+	free(maps->init);
 	all_map_free(maps->map);
-    exit(0);   
+	exit(0);
 }
 
-
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	t_map maps;
-	char **cpymap;
+	t_map	maps;
 
 	maps.map = all_read_map(maps.map, av);
-	maps=control(maps);
-	cpymap = map_copy(maps);
-	maps = player_info(maps);
-	fload_fill(maps.y, maps.x, cpymap);
-	if (cpymap_control(cpymap) == 5)
-	{
-		all_map_free(cpymap);
-		ft_error(maps, 5);
-	}
-	maps=open_window(maps);
-	mlx_hook(maps.win,2,(1L << 0),key_code,&maps);
-	mlx_hook(maps.win,17,0,close_window,&maps);
+	maps = control(maps);
+	maps = fload_fill_and_exit(maps);
+	maps = open_window(maps);
+	mlx_hook(maps.win, 2, (1L << 0), key_code, &maps);
+	mlx_hook(maps.win, 17, 0, close_window, &maps);
 	mlx_loop(maps.init);
-	all_map_print(maps.map);
-	all_map_free(maps.map);
-	all_map_free(cpymap);
 }

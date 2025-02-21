@@ -6,7 +6,7 @@
 /*   By: musyilma <musyilma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 08:50:01 by musyilma          #+#    #+#             */
-/*   Updated: 2024/11/02 15:13:22 by musyilma         ###   ########.fr       */
+/*   Updated: 2025/02/21 10:28:08 by musyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	spt(char **str, char const *s, char c)
 			start++;
 		if (s[start] == c || start > i)
 		{
-			str[index] = ft_substr(s, i, start - i-1);
+			str[index] = ft_substr(s, i, start - i - 1);
 			if (str[index] == NULL)
 				check(str, index - 1);
 			i = start;

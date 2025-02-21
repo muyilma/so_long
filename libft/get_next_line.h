@@ -6,7 +6,7 @@
 /*   By: musyilma <musyilma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 17:06:49 by musyilma          #+#    #+#             */
-/*   Updated: 2024/12/24 21:38:57 by musyilma         ###   ########.fr       */
+/*   Updated: 2025/02/21 10:28:01 by musyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,5 @@
 # include <stdlib.h>
 
 char	*get_next_line(int fd);
-
 
 #endif

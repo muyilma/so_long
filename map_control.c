@@ -6,7 +6,7 @@
 /*   By: musyilma <musyilma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:56:41 by musyilma          #+#    #+#             */
-/*   Updated: 2025/02/19 15:59:39 by musyilma         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:28:04 by musyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,12 @@ t_map	map_info(t_map maps)
 		line++;
 	while (maps.map[column])
 		column++;
-	
-	maps.line=line;
-	maps.column=column;
+	maps.line = line;
+	maps.column = column;
 	return (maps);
 }
 
-void	rectangle(t_map maps)
+static void	rectangle(t_map maps)
 {
 	int	i;
 	int	j;
@@ -49,7 +48,7 @@ void	rectangle(t_map maps)
 	}
 }
 
-void	all_wall(t_map maps)
+static void	all_wall(t_map maps)
 {
 	int	i;
 	int	j;
@@ -62,7 +61,7 @@ void	all_wall(t_map maps)
 		j = 0;
 		while (maps.map[i][j])
 		{
-			if (i == 0 || i == maps.column || j == 0 || j == maps.line-1)
+			if (i == 0 || i == maps.column || j == 0 || j == maps.line - 1)
 			{
 				if (maps.map[i][j] != '1')
 					ft_error(maps, 2);
@@ -72,7 +71,8 @@ void	all_wall(t_map maps)
 		i++;
 	}
 }
-t_map	map_contain(t_map maps, int i, int j, int nothing)
+
+static t_map	map_contain(t_map maps, int i, int j, int nothing)
 {
 	maps.c = 0;
 	maps.e = 0;
@@ -98,15 +98,14 @@ t_map	map_contain(t_map maps, int i, int j, int nothing)
 	}
 	if (!(maps.p == 1 && maps.c >= 1 && maps.e == 1))
 		ft_error(maps, 4);
-	return maps;
+	return (maps);
 }
 
 t_map	control(t_map maps)
 {
-	maps=map_info(maps);
+	maps = map_info(maps);
 	rectangle(maps);
 	all_wall(maps);
-	maps=map_contain(maps, 0, 0, 0);
-
-	return maps;
+	maps = map_contain(maps, 0, 0, 0);
+	return (maps);
 }
