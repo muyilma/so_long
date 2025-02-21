@@ -14,7 +14,7 @@
 #include "so_long.h"
 #include <unistd.h>
 
-void	ft_putnbr(int nb)
+static void	ft_putnbr(int nb)
 {
 	int	a;
 	int	b;

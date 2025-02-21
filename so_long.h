@@ -38,7 +38,6 @@ void		ft_error(t_map maps, int error_code);
 void		all_map_free(char **maps);
 t_map		control(t_map maps);
 t_map		fload_fill_and_exit(t_map maps);
-t_map		map_info(t_map maps);
 t_map		open_window(t_map maps);
 int			key_code(int keycode, t_map *maps);
 

@@ -11,11 +11,10 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-t_map	map_info(t_map maps)
+static t_map	map_info(t_map maps)
 {
 	int	line;
 	int	column;

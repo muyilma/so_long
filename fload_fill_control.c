@@ -99,16 +99,6 @@ static char	**map_copy(t_map maps)
 	cpymap[column] = NULL;
 	return (cpymap);
 }
-#include <stdio.h>
-
-void	all_map_print(char **map)
-{
-	int	i;
-
-	i = -1;
-	while (map[++i])
-		printf("%s\n", map[i]);
-}
 
 t_map	fload_fill_and_exit(t_map maps)
 {
@@ -117,7 +107,6 @@ t_map	fload_fill_and_exit(t_map maps)
 	cpymap = map_copy(maps);
 	maps = player_info(maps);
 	fload_fill(maps.y, maps.x, cpymap);
-	all_map_print(cpymap);
 	if (cpymap_control(cpymap) == 5)
 	{
 		all_map_free(cpymap);
