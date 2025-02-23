@@ -6,13 +6,11 @@
 /*   By: musyilma <musyilma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 12:56:41 by musyilma          #+#    #+#             */
-/*   Updated: 2025/02/21 11:28:04 by musyilma         ###   ########.fr       */
+/*   Updated: 2025/02/22 10:26:33 by musyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <stdlib.h>
-#include <unistd.h>
 
 static t_map	map_info(t_map maps)
 {

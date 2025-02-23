@@ -6,7 +6,7 @@
 /*   By: musyilma <musyilma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:52:24 by musyilma          #+#    #+#             */
-/*   Updated: 2025/02/21 15:42:56 by musyilma         ###   ########.fr       */
+/*   Updated: 2025/02/22 10:27:49 by musyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ static void	fload_fill(int y, int x, char **map)
 	char	c;
 
 	c = map[y][x];
-	if (c== '1')
+	if (c == '1')
 		return ;
 	map[y][x] = '1';
-	if (c== 'E')
+	if (c == 'E')
 		return ;
 	fload_fill(y + 1, x, map);
 	fload_fill(y - 1, x, map);

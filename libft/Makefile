@@ -8,7 +8,7 @@ ft_strtrim.c ft_strmapi.c ft_striteri.c ft_itoa.c ft_split.c ft_isprint.c
 
 OBJS= $(SRCS:.c=.o)
 
-CFLAGS= -Wall -Werror -Wextra -g
+CFLAGS= -Wall -Werror -Wextra 
 CC = cc
 
 all: $(NAME)

@@ -6,7 +6,7 @@
 /*   By: musyilma <musyilma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 10:22:58 by musyilma          #+#    #+#             */
-/*   Updated: 2025/02/21 13:59:15 by musyilma         ###   ########.fr       */
+/*   Updated: 2025/02/22 11:34:12 by musyilma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,17 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static char	**all_read_map(char **map, char **av)
+static t_map	all_read_map(t_map maps, char **av)
 {
 	char	*str;
 	char	*newstr;
 	int		fd;
 	char	*tmp;
 
-	newstr = ft_strdup("");
 	fd = open(av[1], O_RDONLY);
+	if (fd < 0)
+		exit(0);
+	newstr = ft_strdup("");
 	while (1)
 	{
 		str = get_next_line(fd);
@@ -39,9 +41,9 @@ static char	**all_read_map(char **map, char **av)
 	tmp = newstr;
 	newstr = ft_strjoin(newstr, "1");
 	free(tmp);
-	map = ft_split(newstr, '\n');
+	maps.map = ft_split(newstr, '\n');
 	free(newstr);
-	return (map);
+	return (maps);
 }
 
 void	all_map_free(char **map)
@@ -91,11 +93,16 @@ int	main(int ac, char **av)
 {
 	t_map	maps;
 
-	maps.map = all_read_map(maps.map, av);
-	maps = control(maps);
-	maps = fload_fill_and_exit(maps);
-	maps = open_window(maps);
-	mlx_hook(maps.win, 2, (1L << 0), key_code, &maps);
-	mlx_hook(maps.win, 17, 0, close_window, &maps);
-	mlx_loop(maps.init);
+	if (ac == 2)
+	{
+		maps = all_read_map(maps, av);
+		if (!maps.map)
+			ft_error(maps, -1);
+		maps = control(maps);
+		maps = fload_fill_and_exit(maps);
+		maps = open_window(maps);
+		mlx_hook(maps.win, 2, (1L << 0), key_code, &maps);
+		mlx_hook(maps.win, 17, 0, close_window, &maps);
+		mlx_loop(maps.init);
+	}
 }
